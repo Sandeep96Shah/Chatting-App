@@ -308,6 +308,7 @@ h4{
   padding: 30px;
   background-color: aliceblue;
   border-bottom: 1px solid black;
+  overflow-y:scroll;
 }
 .type_message{
   height: 10vh;

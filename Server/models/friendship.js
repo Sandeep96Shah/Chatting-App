@@ -14,7 +14,9 @@ const friendSchema = new mongoose.Schema({
             msg:{
                 type:String,
             },
-            user_id:String,
+            user_id:{
+                type:String,
+            }
             
         }
     ]

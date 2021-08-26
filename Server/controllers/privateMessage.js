@@ -39,6 +39,7 @@ module.exports.message = (req,res) => {
 
 module.exports.addMessage = async (req,res) => {
     console.log("adding message");
+    console.log("req.user._id", req.user);
      try{
         let check =await Friendship.find({from_user:req.user._id, to_user:req.params.to});
         // if(!check){
@@ -50,7 +51,7 @@ module.exports.addMessage = async (req,res) => {
         console.log('check.',check[0]);
         const privateMessage = {
             msg:req.body.message,
-            id:req.user._id,
+            user_id:req.user._id,
         }
         check[0].messages.push(privateMessage);
         check[0].save();

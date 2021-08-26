@@ -14,6 +14,7 @@ import Searched from './Searched';
 import { makeFriend, show_users, show_friends, add_message, privateMessage } from '../actions/index';
 import { useState, useEffect } from 'react';
 import PrivateMessage from './PrivateMessage';
+import { handleSendMessage } from '../socket/Chat_socket';
 
 const Extra = (props) => {
 
@@ -55,7 +56,8 @@ const Extra = (props) => {
             alert("please select your friend to send message!");
             setMessage("");
         }
-        props.dispatch(add_message(message, to))
+        props.dispatch(add_message(message, to));
+        handleSendMessage(message, chatroom, name);
         setMessage("");
         console.log("messageeeee", chatroom, from);
     }
@@ -129,7 +131,7 @@ const Extra = (props) => {
                         <div className="message">
                             { 
                                 props.messages.messages.map((pm) => (
-                                    pm._id == _id ? <p className="self_message">{pm.msg}</p> :
+                                    pm.user_id == _id ? <p className="self_message">{pm.msg}</p> :
                                     <p className="other_message">{pm.msg}</p>
                                 ) )
                             }
