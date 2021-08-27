@@ -97,7 +97,7 @@ export function add_message(message, to){
         .then((response) => response.json())
         .then((data) => {
             console.log('data add message', data.message);
-            dispatch(addMessage(data.message))
+            //dispatch(addMessage(data.message))
             return;
         })
         .catch((err)=>{

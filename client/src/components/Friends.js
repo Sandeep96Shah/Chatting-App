@@ -7,7 +7,7 @@ import { handleSendMessage } from '../socket/Chat_socket';
 
 //chatroom id todo later
  const Friends = (props) => {
-    const {to, name, clickHandle, dispatch} = props;
+    const {to, name, clickHandle, dispatch, from} = props;
     const [ chatroom, setChatroom] = useState();
      useEffect(() => {
         dispatch(getChatroom(to, setChatroom));
@@ -23,7 +23,7 @@ import { handleSendMessage } from '../socket/Chat_socket';
     //}
     return (
         <>
-            <div><p onClick={ () => clickHandle(name, chatroom, to) }>{name}</p></div>
+            <div><p onClick={ () => clickHandle(name, chatroom, to, from) }>{name}</p></div>
             {/* <input type="text" value={send} onChange={ (e) => setSend(e.target.value) }/>
             <button onClick={ () => handleMessage() } >Send</button> */}
         </>

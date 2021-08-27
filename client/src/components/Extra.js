@@ -38,14 +38,14 @@ const Extra = (props) => {
   const results = fuse.search(search);
     const characterResults = results.map(character => character.item);
 
-     const clickHandle = (name, id, to) => {
-         console.log("toooo", to);
+     const clickHandle = (name, id, to, from) => {
+         console.log("toooo", from);
          console.log("frommmm", props.location.state.user._id );
          setChatroom(id);
          setTo(to);
         console.log("fetching the messages from the DB!", id, to);
         props.dispatch(privateMessage(to));
-        handleConnect(name,id);
+        handleConnect(name,id, props.dispatch, from, to );
     }
 
     const sendMessage = (from) => {
@@ -57,9 +57,9 @@ const Extra = (props) => {
             setMessage("");
         }
         props.dispatch(add_message(message, to));
-        handleSendMessage(message, chatroom, name);
+        handleSendMessage(message, chatroom, name, from);
         setMessage("");
-        console.log("messageeeee", chatroom, from);
+        console.log("messageeeee", chatroom, from, from);
     }
 
     const handleSignOut= () => {
@@ -121,7 +121,7 @@ const Extra = (props) => {
                     }
                     <div className="friends">
                         {
-                            friends.map((friend,index) => <Friends dispatch={props.dispatch} clickHandle={clickHandle}  key={friend._id} name={friend.name} to={friend._id}/>)
+                            friends.map((friend,index) => <Friends from={_id} dispatch={props.dispatch} clickHandle={clickHandle}  key={friend._id} name={friend.name} to={friend._id}/>)
                         }
                     </div>
                 </div>
