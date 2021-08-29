@@ -274,7 +274,6 @@ h4{
   display: flex;
   flex-direction: column;
   padding-left: 10px;
-  padding-right: 20px;
   overflow-y: scroll;
 }
 .friends div{
@@ -285,8 +284,11 @@ h4{
   border:1px solid grey;
   border-radius: 5px;
   cursor: pointer;
+  background-color: white;
 }
 .friends div p{
+  display: flex;
+  align-items: center;
   height: 40px;
   font-size: 30px;
 }
@@ -316,7 +318,7 @@ h4{
 .type_message{
   height: 10vh;
   width: 100%;
-  background-color: blanchedalmond;
+  background-color: lightsteelblue;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -330,7 +332,7 @@ h4{
   border-radius: 10px;
 }
 .type_message button{
-  width: 10%;
+  width: auto;
   height: 35px;
   margin-left: 5px;
   border-radius: 5px;
@@ -357,7 +359,7 @@ h4{
     border-radius: 10px;
     margin-right: 50px;
     font-size: 25px;
-    background-color: green;
+    background-color: #7dfb7d;;
     text-align: right;
     padding: 5px;
 }
@@ -367,44 +369,75 @@ h4{
     top: 102px;
     height: 100px;
     background-color: gray;
-    width: 389px;
-    left: 20px;
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: scroll;
-    padding: 20px 0px;
-    border-radius: 20px;
+    padding: 10px 0px;
 
 }
 .close{
   position: fixed;
   top: 69px;
-  left: 331px;
+  left: 23%;
   border: 1px solid gray;
   padding: 2px 5px;
   font-size: 20px;
   border-radius: 10px;
   color: red;
+  cursor: pointer;
 }
 .searched_friend{
   display: flex;
-    justify-content: space-between;
-    width: 80%;
-    border: 1px solid gray;
-    padding: 5px;
-    border-radius: 10px;
-    background-color: lightgray;
+  justify-content: space-between;
+  width: 90%;
+  border: 1px solid gray;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: lightgray;
+  margin-bottom: 5px;
 }
 .searched_friend div p{
   font-size: 20px;
   color: white;
 }
+.searched_friend div{
+  display: flex;
+  align-items: center;
+}
 .searched_friend div button{
     height: 25px;
-    width: 70px;
+    width: 60px;
     font-size: 18px;
     color: blue;
+    cursor: pointer;
+}
+.smallScreen{
+  width: 100%;
+  height: 100px;
+  display: none;
+  background-color: lightsteelblue;
+}
+.showFriends{
+  border: 1px solid blue;
+  display: none;
+  padding: 3px 5px;
+  color:blue;
+  position: fixed;
+  cursor: pointer;
+}
+.showSearch{
+  display: none;
+}
+.showSearch input{
+  height: 30px;
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid gray;
+  padding-left: 10px;
+  width: 80%;
+  font-size: 20px;
 }
 /* Responsive the homePage */
 
@@ -412,10 +445,76 @@ h4{
   .register{
     top:115px;
   }
+  .sign_container{
+    left: 25%;
+  }
+  .homepage{
+    left: 30px;
+  }
+  .message_container_p{
+    font-size: 40px;
+    justify-content: start;
+    padding-left: 2vw;
+  }
+  .friends_header button{
+    font-size: 15px;
+  }
+  .logout{
+    height: 35px;
+    width: 80px;
+    right: 35px;
+  }
+  .friends div p{
+    font-size: 21px;
+  }
+  .type_message input{
+    height: 30px;
+    font-size: 18px;
+  }
+  .searched_friend div p{
+    font-size: 15px;
+  }
+  .type_message input{
+    width: 75%;
+  }
 }
 @media screen and (max-width: 800px){
   .navbar div p{
     font-size: 35px;
+  }
+  .homepage{
+    top: 120px;
+  }
+  .sign_container{
+    left: 20%;
+  }
+  .message_container_p{
+    font-size: 35px;
+  }
+  .logout{
+    height: 30px;
+    width: 75px;
+    right: 10px;
+    font-size: 18px;
+  }
+  .friends_header button{
+    display: none;
+  }
+  .friends_header input{
+    font-size: 17px;
+    width: 100%;
+  }
+  .friends div p {
+    font-size: 18px;
+  }
+  .type_message button{
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 700px){
+  .sign_container{
+    left: 15%;
   }
 }
 
@@ -429,6 +528,75 @@ h4{
   }
   .navbar div p{
     font-size: 30px;
+  }
+  .sign_container{
+    left: 35px
+  }
+  .navbar div h1{
+    font-size: 28px;
+  }
+  .sign_header h1{
+    font-size: 40px;
+  }
+  /* For small Screen */
+  .friendsList{
+    display: none;
+  }
+  .message_container{
+    width: 100%;
+  }
+  .message_container_p{
+    justify-content: center;
+  }
+  .showFriends{
+    display: flex;
+    position: fixed;
+    top: 35px;
+    left: 25px;
+    height: 25px;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 5px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+  .showSearch{
+    height: 30px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+  .message_container_p{
+    display: none;
+  }
+  .smallScreen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logout{
+    right: 40px;
+    top: 35px;
+  }
+  .friends{
+    position: fixed;
+    top: 110px;
+    left: 0px;
+    width: 230px;
+    height: 50vh;
+    background-color: #e4e2e2;
+    padding: 15px 10px;
+  }
+  .searched{
+    width: 60%;
+    height: 30vh;
+  }
+  .searched_friend div p {
+    font-size: 20px;
   }
 }
 @media screen and (max-width: 500px){
@@ -451,6 +619,37 @@ h4{
     font-weight: 500;
     line-height: 40px;
   }
+  .sign_container{
+    width: 350px;
+    left: 8%;
+  }
+  .homepage p{
+    font-size: 18px;
+  }
+  .navbar div h1{
+    font-size: 22px;
+  }
+  .sign_header h1{
+    font-size: 35px;
+  }
+  .smallScreen{
+    align-items: flex-end;
+    padding-bottom: 10px;
+    height: 90px;
+  }
+  .showFriends{
+    top: 15px;
+  }
+  .logout{
+    top: 15px;
+    right: 30px;
+  }
+  .showSearch{
+    width: 100%;
+  }
+  .showSearch input{
+    width: 60%;
+  }
 }
 @media screen and (max-width: 400px){
   .navbar div p{
@@ -458,6 +657,23 @@ h4{
   }
   .register p{
     font-size: 15px;
+  }
+  .sign_container{
+    width: 90%;
+    left: 13px;
+  }
+  .sign_header h1{
+    font-size: 28px;
+  }
+  .sign_header{
+    height: 65px;
+  }
+  .navbar div h1{
+    font-size: 19px;
+  }
+  .homepage{
+    top: 110px;
+    left: 15px;
   }
 }
 
