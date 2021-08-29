@@ -45,7 +45,7 @@ h4{
 .register{
   position: fixed;
   top: 30px;
-  right: 100px;
+  right: 5vw;
 }
 .homepage{
   position: fixed;
@@ -68,7 +68,10 @@ h4{
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-right: 50px;
+}
+.navbar div p{
+  font-size: 40px;
+  font-weight: 600;
 }
 .homepage_container{
   display: flex;
@@ -79,7 +82,7 @@ h4{
 }
 .homepage_title{
   margin-top: -100px;
-  width: 30%;
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -402,5 +405,59 @@ h4{
     width: 70px;
     font-size: 18px;
     color: blue;
+}
+/* Responsive the homePage */
+
+@media screen and (max-width: 1000px){
+  .register{
+    top:115px;
+  }
+}
+@media screen and (max-width: 800px){
+  .navbar div p{
+    font-size: 35px;
+  }
+}
+
+@media screen and (max-width: 600px){
+  .register p{
+    padding: 5px;
+  }
+  .homepage_title{
+    margin-top: -50px;
+    width: 70%;
+  }
+  .navbar div p{
+    font-size: 30px;
+  }
+}
+@media screen and (max-width: 500px){
+  .navbar{
+    height: 90px;
+  }
+  .navbar div p{
+    font-size: 25px;
+    font-weight: 600;
+  }
+  .register{
+    top:125px;
+    margin-right: 0px;
+  }
+  .register p{
+    font-size: 18px;
+  }
+  .homepage_title p{
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 40px;
+  }
+}
+@media screen and (max-width: 400px){
+  .navbar div p{
+    font-size: 20px;
+  }
+  .register p{
+    font-size: 15px;
+  }
 }
 

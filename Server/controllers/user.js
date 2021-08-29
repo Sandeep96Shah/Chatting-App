@@ -2,8 +2,8 @@ const User = require("../models/user");
 const sgMail = require("@sendgrid/mail");
 const jwt = require('jsonwebtoken');
 const Speakeasy = require("speakeasy");
-const API_KEY =
-  "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";
+const API_KEY ="";
+  //make some changes here;
 
 sgMail.setApiKey(API_KEY);
 

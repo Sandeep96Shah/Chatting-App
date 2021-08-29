@@ -7,7 +7,7 @@ import { useHistory, Link } from 'react-router-dom';
         <>
             <Link to="/login"><div className="register"><p>Register/SignIn</p></div></Link>
             <div className="navbar">
-                <div><h1>WelCome To The World Of Love</h1></div>
+                <div><p>WelCome To The World Of Love</p></div>
             </div>
             <div className="homepage_container">
                 <div className="homepage_title">
