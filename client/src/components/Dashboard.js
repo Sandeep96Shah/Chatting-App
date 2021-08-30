@@ -1,188 +1,194 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Fuse from 'fuse.js';
-import { io } from "socket.io-client";
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../index.css';
 import { handleConnect } from '../socket/Chat_socket';
-//
-import { APIUrls } from '../helpers/apis';
-import { getAuthTokenFromLocalStorage,getFormBody } from '../helpers/utils';
 import Friends from './Friends';
 import { connect } from 'react-redux';
 import Searched from './Searched';
 
-import { makeFriend, show_users, show_friends } from '../actions/index';
+import { makeFriend, show_users, show_friends, add_message, privateMessage } from '../actions/index';
+import { useState, useEffect } from 'react';
+import { handleSendMessage } from '../socket/Chat_socket';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+toast.configure();
+const Dashboard = (props) => {
 
-
- class Dashboard extends Component {
-     constructor(props) {
-         super(props)
+    const [message, setMessage] =useState("");
+    const [search, setSearch] = useState("");
+    const [chatroom, setChatroom] = useState(null);
+    const [ to, setTo] = useState(null);
+    const [ showFriends, setShowFriends] = useState(true);
+    const [ showChattingWith, setShowChattingWith ] = useState(false);
+    const [ chattingWith, setChattingWith ] = useState("");
      
-         this.state = {
-              name:this.props.location.state.user.name,
-              searched:[],
-              result:false,
-              id:this.props.location.state.user._id,
-              search:"",
-         }
-     }
-     
-
-    // fuzzy = (search ,friends) => {
-    //     let fuse;
-    //    if(friends){
-    //     fuse = new Fuse(friends, {
-    //         keys: [
-    //           'name',
-    //         ],
-    //         includeScore:true,
-    //     });
-    //    }
-    //     const results = fuse.search(search);
-    //     console.log("Resulttttt", results);
-    // }
     
-    componentDidMount() {
+   useEffect(() => {
+        props.dispatch(show_users());
+        props.dispatch(show_friends());
+        if(window.innerWidth<=600){
+            setShowFriends(false);
+        }
+   },[search])
 
-        this.props.dispatch(show_users());
-        this.props.dispatch(show_friends());
+   useEffect(() => {
+    toast.success(`Welcome ${name}`,{autoClose:3000});
+   },[]);
+
+   const fuse = new Fuse(props.friends.users, {
+    keys: [
+      'name',
+    ],
+    includeScore: true
+  });
+  const results = fuse.search(search);
+    const characterResults = results.map(character => character.item);
+
+     const clickHandle = (name, id, to, from) => {
+         setChatroom(id);
+         setTo(to);
+        props.dispatch(privateMessage(to));
+        handleConnect(name,id, props.dispatch, from, to );
+        setShowFriends(false);
+        setShowChattingWith(true)
+        setChattingWith(name);
+        toast.success(`Chatting With ${name}`);
     }
 
-     clickHandle = (name, id) => {
-        // const socket = io("http://localhost:5000", { transports : ['websocket'] });
-        // console.log("this",this);
-        // let self = this;
-        // socket.on('connect', () => {
-        //   console.log("connected to the server via Socket.io!");
-        //   socket.emit('joinroom',
-        //         {
-        //             userName: name,
-        //             chatRoom : id, 
-        //         });
-        //         socket.on('user-joined',function(data)
-        //         {
-        //             console.log('a user joined',data);
-        //         })
-        // })
-        handleConnect(name,id);
+    const sendMessage = (from) => {
+        if(chatroom == null){
+            toast.warn("please select your friend to send message!");
+            setMessage("");
+        }
+        else if(message == ""){
+            toast.warn("Please Type something!");
+        }
+        props.dispatch(add_message(message, to));
+        handleSendMessage(message, chatroom, name, from);
+        setMessage("");
     }
 
-    handleSignOut= () => {
+    const handleSignOut= () => {
+        toast.success("SignOut Successfully!");
         localStorage.removeItem('token');
     }
 
-    handleName = (e) => {
-        this.setState({
-            search:e.target.value,
-        })
+    const handleName = (e) => {
+        setSearch(e.target.value);
     }
 
-    handleSearch = (e) => {
+    const handleSearch = (e) => {
         e.preventDefault();
-        // const name = this.state.name;
-        // const url = APIUrls.search(this.state.name);
-        // fetch(url, {
-        //   method: 'POST',
-        //   mode : 'cors',
-        //   headers: {
-        //     'Content-Type': 'application/x-www-form-urlencoded',
-        //     Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
-        //   },
-        //   body: getFormBody({ name }),
-        // })
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     console.log('data', data);
-        //     // dispatch action to save user
-        //     // dispatch(signIn_progress(data.isVerified));
-        //     console.log("Searched Data Receuved", data);
-        //     this.setState({
-        //         searched:data.friends,
-        //         result:true,
-        //     })
-        //   })
-        //   .catch((err)=>{
-        //       console.log("error Receuved",err);
-        //   })
-    }
-
-    handleSearched = () => {
-        this.setState({
-            result:false,
-            searched:[],
-        })
-    }
-
-    handleAddFriend = (id) => {
-        this.props.dispatch(makeFriend(this.state.id, id));
-        //searching for the user id in the current friends list and based on that do the reducer part
-        const index = this.state.friends.findIndex(friend => friend.id === id);
-        console.log("index", index);
-        if(index!=-1){
-            this.state.friends.push(id);
+        if(characterResults.length==0){
+            toast("No user found!");
         }
-        console.log("friendship done");
     }
 
-    render() {
-        console.log("new props", this.props);
-        console.log("State Info", this.state);
-        const { friends, allusers } = this.props.friends;
-        const { name } = this.props.location.state.user;
+    const handleSearched = () => {
+        setSearch("");
+    }
+
+    const handleAddFriend = (id) => {
+        const index = props.friends.friends.findIndex(friend => friend._id === id);
+        if(index == -1){
+            props.dispatch(makeFriend(props.location.state.user._id, id));
+        }else{
+            toast.info("Friendship Already Exists!");
+        }
+    }
+
+    const handleshowFriends = () => {
+        setShowFriends(!showFriends);
+    }
+
+        const { friends, allusers } = props.friends;
+        const { name, _id } = props.location.state.user;
 
         return (
             <>
             <div className="dashboard">
-            <Link to="/login"><div className="logout" onClick={ () => this.handleSignOut() }>LogOut</div></Link>
+            <Link to="/login"><div className="logout" onClick={ () => handleSignOut() }>LogOut</div></Link>
                 <div className="friendsList" >
                     <div className="friends_header" >
-                        <input type="text" name="search" onChange={ (e) => this.handleName(e) } placeholder="Search Friend" />
-                        <button onClick={ (e) => this.handleSearch(e) }>Search</button>
+                        <input type="text" value={search} onChange={ (e) => handleName(e) } placeholder="Search Friend" />
+                        <button onClick={ (e) => handleSearch(e) }>Search</button>
                     </div>
                     {
-                        this.state.result && 
-                        <div className="close" onClick={ () => this.handleSearched() }>Close</div>
+                        characterResults.length>0 && 
+                        <div className="close" onClick={ () => handleSearched() }>Close</div>
                     }
                     
                     { 
-                        this.state.result && 
+                        characterResults.length>0 &&  
                         <div className="searched">{
-                        this.state.searched.map((search) => <Searched key={search._id} handleAddFriend={this.handleAddFriend} name={search.name} id={search._id} clickHandle={this.clickHandle}/>)
+                            characterResults.map((search) => <Searched key={search._id} handleAddFriend={handleAddFriend} name={search.name} id={search._id} clickHandle={clickHandle}/>)
                         }</div>
                     }
                     <div className="friends">
                         {
-                            friends.map((friend) => <Friends clickHandle={this.clickHandle}  key={friend._id} name={friend.name} id={friend._id}/>)
+                            friends.map((friend,index) => <Friends from={_id} dispatch={props.dispatch} clickHandle={clickHandle}  key={friend._id} name={friend.name} to={friend._id}/>)
                         }
                     </div>
                 </div>
                 <div className="message_container">
-                    <p>{name}</p>
+                    <p className="message_container_p">{name}</p>
+                    <div className="smallScreen">
+                        <div className="showFriends" onClick={ () => handleshowFriends() }><p>Friends</p></div> 
+                        {
+                            showFriends && 
+                            <div className="friends">
+                            {
+                                showFriends &&
+                                friends.map((friend,index) => <Friends from={_id} dispatch={props.dispatch} clickHandle={clickHandle}  key={friend._id} name={friend.name} to={friend._id}/>)
+                            }
+                        </div>
+                        }
+                        <div className="showSearch">
+                            <input type="text" value={search} onChange={ (e) => handleName(e) } placeholder="Search Friend" />
+                        </div> 
+                        { 
+                            characterResults.length>0 &&  
+                            <div className="searched">{
+                                characterResults.map((search) => <Searched key={search._id} handleAddFriend={handleAddFriend} name={search.name} id={search._id} clickHandle={clickHandle}/>)
+                            }</div>
+                        }
+                    </div>
                     <div>
-                        <div className="message"></div>
+                        { showChattingWith && <div><p className="chattingWith">{chattingWith}</p></div> }
+                        <div className="message">
+                            { 
+                                props.messages.messages.map((pm, index) => (
+                                    pm.user_id == _id ? <p key={index} className="self_message">{pm.msg}</p> :
+                                    <p key={index} className="other_message">{pm.msg}</p>
+                                ) )
+                            }
+                        </div>
                         <div className="type_message">
                             <input 
                             type="text"
                             name="message"
                             placeholder="Type Your Message"
+                            onChange={ (e) => setMessage(e.target.value) }
+                            value={message}
                             />
-                            <button>Send</button>
+                            <button  onClick={ () => sendMessage(_id) }>Send</button>
                         </div>
                     </div>
                 </div>
             </div>
             </>
         )
-    }
 }
 
 function mapStateToprops(state){
     return{
        auth:state.auth, 
-       friends:state.friends
+       friends:state.friends,
+       messages:state.messages
     }
 }
 
-export default connect(mapStateToprops)(withRouter(Dashboard));
+export default connect(mapStateToprops)(Dashboard);

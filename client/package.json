@@ -15,6 +15,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-toastify": "^8.0.1",
     "redux": "^4.1.1",
     "redux-logger": "^3.0.6",
     "redux-react-hook": "^4.0.3",

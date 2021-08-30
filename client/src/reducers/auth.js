@@ -10,14 +10,12 @@ const initialState = {
 export default function auth(state = initialState, action){
     switch(action.type){
         case SIGNIN_PROGRESS:
-            console.log("SIGNIN_PROGRESS",  action);
             return{
                 ...state,
                 name:!action.isVerified,
                 otp:true,
             }
         case SIGNIN_SUCCESS:
-            console.log("SIGNIN_SUCCESS",  action);
             return {
                 ...state,
                 user:action.payload,

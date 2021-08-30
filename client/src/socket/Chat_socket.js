@@ -3,10 +3,10 @@ import { addMessage } from '../actions/index';
 import  jwt_decode from 'jwt-decode';
  
 export const handleConnect = (name, id, dispatch, from, to) => {
-    console.log("ddddispatchhhhh", dispatch);
+    // console.log("ddddispatchhhhh", dispatch);
     const socket = io("http://localhost:5000", { transports : ['websocket'] });
     socket.on('connect', () => {
-      console.log("connected to the server via Socket.io!");
+      //console.log("connected to the server via Socket.io!");
       socket.emit('joinroom',
             {
                 userName: name,
@@ -14,12 +14,12 @@ export const handleConnect = (name, id, dispatch, from, to) => {
             });
             socket.on('user-joined',function(data)
             {
-                console.log('a user joined Here',data);
+                //console.log('a user joined Here',data);
             })
             socket.on('receive_message', function(data){
                 const token = localStorage.getItem('token');
                 const user = jwt_decode(token);
-                console.log("user token  checking", user);
+                //console.log("user token  checking", user);
                 if(user._id == data.from){
                     const receive = {
                         msg : data.message,
@@ -33,7 +33,7 @@ export const handleConnect = (name, id, dispatch, from, to) => {
                     }
                     dispatch(addMessage(receive))
                 }
-                console.log("receive_message", data)
+                //console.log("receive_message", data)
             })
            
     })
@@ -41,8 +41,8 @@ export const handleConnect = (name, id, dispatch, from, to) => {
 
 export const handleSendMessage = (msg,id,name, from) => {
     const socket = io("http://localhost:5000", { transports : ['websocket'] });
-    console.log("message", msg);
-    console.log("idddddd", id);
+    //console.log("message", msg);
+    //console.log("idddddd", id);
     socket.emit('send_message', {
         message: msg,
         name: name,

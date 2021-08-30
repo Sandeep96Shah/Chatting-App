@@ -21,7 +21,6 @@ export function usersFriends(data){
 export function show_friends(){
     return (dispatch) => {
         const url = APIUrls.friends();
-        console.log("friendsss", url);
         fetch(url, {
             method:'GET',
             mode:"cors",
@@ -32,7 +31,6 @@ export function show_friends(){
         })
         .then((response) => response.json())
         .then(data => {
-            console.log("userss friendsss", data.friends.friends)
             dispatch(usersFriends(data.friends.friends));
         })
         .catch(error => console.log("error", error));
@@ -42,7 +40,6 @@ export function show_friends(){
 export function show_users(){
     return (dispatch) => {
         const url = APIUrls.users();
-        console.log("friendsss", url);
         fetch(url, {
             method:'GET',
             mode:"cors",
@@ -53,7 +50,6 @@ export function show_users(){
         })
         .then((response) => response.json())
         .then(data => {
-            console.log("alllll", data.users);
             dispatch(allUsers(data.users));
         })
         .catch(error => console.log("error", error));
@@ -96,7 +92,6 @@ export function add_message(message, to){
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log('data add message', data.message);
             //dispatch(addMessage(data.message))
             return;
         })
@@ -120,7 +115,6 @@ export function user(email){
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log('data', data);
             if (data.success) {
                 // dispatch action to save user
                 dispatch(signIn_progress(data.isVerified));
@@ -146,15 +140,8 @@ export function user_validate(token, email, history, name){
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log('data', data);
-            // console.log("user data", data.user._id);
-            // console.log("user data", typeof(data.user._id));
-            // console.log("user data", typeof(data.user.name));
             if (data.success) {
-                // dispatch action to save user
-                //console.log("yahoo");
                 localStorage.setItem('token', data.data.token);
-                console.log("data.user", data);
                 dispatch(signIn_success(data.user));
                 history.push({pathname:'/dashboard', state:{user:data.user}});
                 return;
@@ -188,7 +175,6 @@ export function friendship(data){
 }
 
 export function makeFriend(from,to){
-    //console.log("Friendshpppppppp");
     return (dispatch) => {
         const url = APIUrls.makeFriend(from, to);
         fetch(url, {
@@ -202,12 +188,8 @@ export function makeFriend(from,to){
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log('data', data);
             if (data.success) {
-                // dispatch action to save user
-                // dispatch(signIn_progress(data.isVerified));
                 dispatch(friendship(data.users));
-               // console.log("Searched Data Receuved", data);
                 return;
               }
           })
@@ -220,7 +202,6 @@ export function makeFriend(from,to){
 
 
 export function getChatroom(to, setChatroom){
-    console.log("Friendshpppppppp");
     return (dispatch) => {
         const url = APIUrls.privateMessage(to);
         fetch(url, {
@@ -233,14 +214,8 @@ export function getChatroom(to, setChatroom){
         })
           .then((response) => response.json())
           .then((data) => {
-             console.log('data chatroom', data.pm[0]);
              setChatroom(data.pm[0]._id);
-            // console.log('data chatroom', data.pm[0]._id);
-            //dispatch(private_message(data.pm[0]._id, data.pm[0].messages));
-
             if (data.success) {
-                
-                console.log("chatroommmmmmm", data);
                 return;
               }
           })
@@ -253,7 +228,6 @@ export function getChatroom(to, setChatroom){
 
 
 export function privateMessage(to){
-    console.log("Friendshpppppppp");
     return (dispatch) => {
         const url = APIUrls.privateMessage(to);
         fetch(url, {
@@ -266,13 +240,9 @@ export function privateMessage(to){
         })
           .then((response) => response.json())
           .then((data) => {
-             console.log('data chatroom', data.pm[0]);
-            // console.log('data chatroom', data.pm[0]._id);
             dispatch(private_message(data.pm[0].messages));
 
             if (data.success) {
-                
-                console.log("chatroommmmmmm", data);
                 return;
               }
           })

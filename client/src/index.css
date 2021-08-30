@@ -310,7 +310,7 @@ h4{
 .message{
   width: 100%;
   height: 64vh;
-  padding: 30px;
+  padding: 40px 30px 30px 30px;
   background-color: aliceblue;
   border-bottom: 1px solid black;
   overflow-y:scroll;
@@ -346,7 +346,7 @@ h4{
     border: none;
     margin: 5px 0px;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 21px;
     background-color: lightgray;
     padding: 5px;
 }
@@ -358,7 +358,7 @@ h4{
     margin: 5px 0px;
     border-radius: 10px;
     margin-right: 50px;
-    font-size: 25px;
+    font-size: 21px;
     background-color: #7dfb7d;;
     text-align: right;
     padding: 5px;
@@ -439,6 +439,16 @@ h4{
   width: 80%;
   font-size: 20px;
 }
+.chattingWith{
+  position: fixed;
+  height: 40px;
+  width: 70vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  background-color: #efaf6e;
+}
 /* Responsive the homePage */
 
 @media screen and (max-width: 1000px){
@@ -477,6 +487,12 @@ h4{
   .type_message input{
     width: 75%;
   }
+  .self_message{
+    font-size: 18px;
+  }
+  .other_message{
+    font-size: 18px;
+  }
 }
 @media screen and (max-width: 800px){
   .navbar div p{
@@ -509,6 +525,12 @@ h4{
   }
   .type_message button{
     font-size: 18px;
+  }
+  .self_message{
+    font-size: 16px;
+  }
+  .other_message{
+    font-size: 16px;
   }
 }
 
@@ -597,6 +619,10 @@ h4{
   }
   .searched_friend div p {
     font-size: 20px;
+  }
+  .chattingWith{
+    width: 100vw;
+    font-size: 25px;
   }
 }
 @media screen and (max-width: 500px){

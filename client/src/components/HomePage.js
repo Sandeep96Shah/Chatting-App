@@ -1,8 +1,7 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
  const HomePage = () => {
-     const history = useHistory();
     return (
         <>
             <Link to="/login"><div className="register"><p>Register/SignIn</p></div></Link>
