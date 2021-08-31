@@ -65,10 +65,12 @@ const Dashboard = (props) => {
         }
         else if(message == ""){
             toast.warn("Please Type something!");
+        }else{
+            props.dispatch(add_message(message, to));
+            handleSendMessage(message, chatroom, name, from);
+            setMessage("");
         }
-        props.dispatch(add_message(message, to));
-        handleSendMessage(message, chatroom, name, from);
-        setMessage("");
+        
     }
 
     const handleSignOut= () => {

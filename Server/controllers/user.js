@@ -3,7 +3,7 @@ const sgMail = require("@sendgrid/mail");
 const jwt = require('jsonwebtoken');
 const Speakeasy = require("speakeasy");
 //edit this before deploying
-const API_KEY ="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";
+const API_KEY ="";
 
 sgMail.setApiKey(API_KEY);
 
