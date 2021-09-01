@@ -3,7 +3,7 @@ const sgMail = require("@sendgrid/mail");
 const jwt = require('jsonwebtoken');
 const Speakeasy = require("speakeasy");
 //edit this before deploying
-const API_KEY ="";
+const API_KEY = process.env.API_KEY;
 
 sgMail.setApiKey(API_KEY);
 
@@ -37,7 +37,7 @@ module.exports.createUser = async (req, res) => {
     console.log("token", token);
     const message = {
       to: req.body.email,
-      from: "sandeep2016shah@gmail.com",
+      from: process.env.EMAIL_ID,
       subject: "OTP",
       text: token,
       html: `<h1>Hello!</h1> <h2>${token}</h2>`,
@@ -81,7 +81,7 @@ module.exports.validateUser = async (req,res) => {
             return res.status(200).json({
                 message:"Verification successful, keep the token!",
                 data:{
-                    token: jwt.sign(user[0].toJSON(), "Iis2G23kZI2Fnfi0wXTLDgxKXk0cIozE", { expiresIn: "10000000" }),
+                    token: jwt.sign(user[0].toJSON(), process.env.SECRET, { expiresIn: "10000000" }),
                 },
                 user:user[0],
                 success:true,

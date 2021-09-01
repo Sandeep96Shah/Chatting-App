@@ -103,6 +103,7 @@ export function add_message(message, to){
 
 //related to user register/signin
 export function user(email){
+    console.log("signing in", email);
     return (dispatch) => {
         const url = APIUrls.signIn();
         fetch(url, {
@@ -117,12 +118,13 @@ export function user(email){
           .then((data) => {
             if (data.success) {
                 // dispatch action to save user
+                console.log("fetched data ", data);
                 dispatch(signIn_progress(data.isVerified));
                 return;
               }
           })
           .catch((err)=>{
-              console.log("error",err);
+              console.log("error fetch nhi ho rha h!",err);
           })
       };
 }

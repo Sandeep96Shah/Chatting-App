@@ -6,7 +6,7 @@ module.exports.makeFriend =async (req,res) => {
 
     // const from = mongoose.Types.ObjectId(req.params.from);
     // console.log("paramssss", from);
-
+    try{
     console.log("req.user makefriedn", req.params);
     let checking = await User.findOne({_id : req.params.from}, 'friends');
     let ans = checking.friends.filter(id => id == req.params.to );
@@ -39,5 +39,10 @@ module.exports.makeFriend =async (req,res) => {
     // return res.status(200).json({
     //     message:"Friendship Done!",
     // })
+    }catch(err){
+        return res.status(400).json({
+        message:"error while making the friendship!",
+    })
+    }
 }
 
